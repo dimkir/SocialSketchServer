@@ -1,4 +1,4 @@
-import org.socialsketch.server.persist.PersistException;
+package org.socialsketch.server.persist;
 
 
 /**

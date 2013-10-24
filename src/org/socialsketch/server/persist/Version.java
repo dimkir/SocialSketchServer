@@ -1,3 +1,5 @@
+package org.socialsketch.server.persist;
+
 
 /**
  * 
