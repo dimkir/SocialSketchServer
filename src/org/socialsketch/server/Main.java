@@ -1,4 +1,4 @@
-package org.dimitry.socialsketch.server;
+package org.socialsketch.server;
 
 /**
  * This is entry point to server side of the social sketch.
