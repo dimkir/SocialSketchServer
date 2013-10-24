@@ -1,6 +1,6 @@
 
 /**
- *
+ * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
 import java.sql.Connection;
