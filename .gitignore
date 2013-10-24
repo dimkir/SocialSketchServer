@@ -4,6 +4,7 @@
 twitter4j.properties
 
 # NetBeans specific #
+logs/
 nbproject/private/
 build/
 nbbuild/
@@ -16,6 +17,6 @@ nb-configuration.xml
 *.class
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
