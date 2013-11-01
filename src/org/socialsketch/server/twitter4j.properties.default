@@ -1,0 +1,14 @@
+# You must fill this file with your own properties. 
+# AND RENAME IT TO "twitter4j.properties" 
+
+# Also remember to keep it in the same package where the twitter 
+# authentication code will be located.
+
+
+# To get properties you have to "add an app" to your dev-account at:
+# http://dev.twitter.com
+debug=true
+oauth.consumerKey=YOUR_KEY
+oauth.consumerSecret=YOUR_SECRET
+oauth.accessToken=YOUR_TOKEN
+oauth.accessTokenSecret=YOUR_TOKEN_SECRET
