@@ -30,9 +30,9 @@ public class Version {
 //            String password = "test623";
 //            String url = "jdbc:mysql://localhost:3306/testdb";
             
-            MySqlProperties prop = new MySqlProperties("/mysql.properties");
+            con = new MySqlProperties().getNewConnection();
             
-            con = DriverManager.getConnection(prop.getConnectionUrl(), prop.getUser(), prop.getPassword());
+            //con = DriverManager.getConnection(prop.getConnectionUrl(), prop.getUser(), prop.getPassword());
             st = con.createStatement();
             rs = st.executeQuery("SELECT VERSION()");
 
