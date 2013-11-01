@@ -1,0 +1,6 @@
+# this file contains properties to connect to mysql
+db.mysql.user=
+db.mysql.password=
+db.mysql.database=
+db.mysql.server=localhost
+db.mysql.port=3306
