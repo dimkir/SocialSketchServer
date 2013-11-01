@@ -1,6 +1,9 @@
 package org.socialsketch.server.persist;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 
@@ -27,10 +30,32 @@ public class MySqlProperties extends Properties {
      private static final String DEFAULT_MYSQL_SERVER = "localhost";
      
      
+     private static final String C_DEFAULT_MYSQL_PROPERTIES_RESOURCE_PATH = "mysql.properties";
      
      
+     /**
+      * Establishes and returns connection.
+      * @return
+      * @throws SQLException 
+      */
+     public Connection getNewConnection() throws SQLException
+     {
+        return DriverManager.getConnection(getConnectionUrl(), getUser(), getPassword());         
+     }
      
-     MySqlProperties(String resourcePath) throws IOException{
+     
+     /**
+      * Initializes mysql properties from default resource file:
+      * {@link #C_DEFAULT_MYSQL_PROPERTIES_RESOURCE_PATH}
+      * 
+      * @throws IOException 
+      */
+     public MySqlProperties() throws IOException 
+     {
+         this(C_DEFAULT_MYSQL_PROPERTIES_RESOURCE_PATH);
+     }
+     
+     public MySqlProperties(String resourcePath) throws IOException{
          super();
          mResourcePath = resourcePath;
          
