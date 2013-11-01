@@ -5,6 +5,7 @@ package org.socialsketch.server.persist;
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,13 +21,18 @@ public class Version {
         Connection con = null;
         Statement st = null;
         ResultSet rs = null;
+        
+                
 
-        String url = "jdbc:mysql://localhost:3306/testdb";
-        String user = "testuser";
-        String password = "test623";
 
         try {
-            con = DriverManager.getConnection(url, user, password);
+//            String user = "testuser";
+//            String password = "test623";
+//            String url = "jdbc:mysql://localhost:3306/testdb";
+            
+            MySqlProperties prop = new MySqlProperties("/mysql.properties");
+            
+            con = DriverManager.getConnection(prop.getConnectionUrl(), prop.getUser(), prop.getPassword());
             st = con.createStatement();
             rs = st.executeQuery("SELECT VERSION()");
 
@@ -38,6 +44,8 @@ public class Version {
             Logger lgr = Logger.getLogger(Version.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
 
+        } catch (IOException ex) {
+            Logger.getLogger(Version.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (rs != null) {
