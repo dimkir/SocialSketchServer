@@ -1,7 +1,11 @@
 # my project specific
 
+
+
 # private properties on each machine
 twitter4j.properties
+mysql.properties
+
 bgrunning.log
 
 # NetBeans specific #
