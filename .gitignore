@@ -2,6 +2,7 @@
 
 # private properties on each machine
 twitter4j.properties
+bgrunning.log
 
 # NetBeans specific #
 logs/
