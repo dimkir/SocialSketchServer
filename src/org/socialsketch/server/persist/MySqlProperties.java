@@ -29,8 +29,10 @@ public class MySqlProperties extends Properties {
      private static final String DEFAULT_MYSQL_PORT = "3306";
      private static final String DEFAULT_MYSQL_SERVER = "localhost";
      
-     
-     private static final String C_DEFAULT_MYSQL_PROPERTIES_RESOURCE_PATH = "mysql.properties";
+     /**
+      * Default location of the properties file is "default package" (root of your source directory)
+      */
+     private static final String C_DEFAULT_MYSQL_PROPERTIES_RESOURCE_PATH = "/mysql.properties";
      
      
      /**
