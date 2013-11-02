@@ -1,19 +1,10 @@
 package org.socialsketch.server.persist.examples;
 
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.socialsketch.server.persist.PersistException;
 import org.socialsketch.server.persist.PersistToDb;
-import twitter4j.GeoLocation;
-import twitter4j.HashtagEntity;
-import twitter4j.MediaEntity;
-import twitter4j.Place;
-import twitter4j.RateLimitStatus;
 import twitter4j.Status;
-import twitter4j.URLEntity;
-import twitter4j.User;
-import twitter4j.UserMentionEntity;
 
 /**
  * Test to try to insert data into the table.
