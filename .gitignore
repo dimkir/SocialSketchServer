@@ -1,6 +1,10 @@
 # my project specific
 
+.gradle/
+nbproject/
+nbproject.off/
 
+build.xml.off
 
 # private properties on each machine
 twitter4j.properties
