@@ -1,16 +1,21 @@
 package org.socialsketch.server;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import twitter4j.FilterQuery;
 import twitter4j.StatusListener;
-import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
 /**
  * This is entry point to server side of the social sketch.
+ * 
+ * IMPORTANT!!!!!!
+ * IMPORTANT!!!!!!
+ * IMPORTANT!!!!!!
+ * IMPORTANT!!!!!!
+ * IMPORTANT!!!!!!
+ * You need twitter4j.properties file in the root of your sources folder for this to work
+ * as application takes keys from there.
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
@@ -58,8 +63,9 @@ public class Main {
 //                track.addAll(Arrays.asList(arg.split(",")));
 //            }
 //        }
-        track.add("void setup draw");
-        track.add("void size");
+        track.add("@dublinbusnews");
+//        track.add("void setup draw");
+//        track.add("void size");
         
         long[] followArray = new long[follow.size()];
         for (int i = 0; i < follow.size(); i++) {
