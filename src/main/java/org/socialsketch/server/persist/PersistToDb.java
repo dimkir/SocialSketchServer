@@ -1,19 +1,59 @@
 package org.socialsketch.server.persist;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.socialsketch.server.persist.query.IQuery;
+import org.socialsketch.server.persist.query.PersistQuery;
+import twitter4j.Status;
+
 /**
  * Class provides interface to persist tweets in abstract manner.
+ * 
+ * <p>
+ * As data source is using mysql (through JDBC Connector/J driver).
+ * 
+ * <p>
+ * To configure mysql, the class uses {@link MySqlProperties#MySqlProperties() } 
+ * default constructor. Incuim, it is reading "mysql.properties" from the default package.
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
 public class PersistToDb {
     
+    private final Connection mConnection;
+    private final static String C_TWEET_TABLE_NAME = "sss_tweet_table";
+    private final String C_DEF_SCHEMA_RES_FILE = "build_schema.sql";
     
      
      /**
-      * Initializes and autoconnects to the persistent storage.
+      * Initializes and connects to the persistent storage.
+      * @failable in case there's some problem with the storage.
+      * 
+      * @throws PersistException in case there was problem connecting.
+      * 
       */
-     public PersistToDb(){
-         
+     public PersistToDb() throws PersistException, PersistFatalException
+     {
+        try {
+            mConnection = new MySqlProperties().getNewConnection();
+            
+            // make sure that all tables and corresponding "schema" is created.
+            if ( !dataSchemaExists() ){
+                createDataSchema();
+            }
+            
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistException(ex);
+        }
      }
      
      
@@ -23,8 +63,16 @@ public class PersistToDb {
       * @throws PersistFatalException in case it's the end
       * @throws PersistReconnectableException in case reconnection may help
       */
-     public void persistTweet() throws PersistException
+     public void persistTweet(Status status) throws PersistException
      {
+         try {
+            PersistQuery pq = new PersistQuery(C_TWEET_TABLE_NAME);
+           
+            executeQuery(pq);
+         }
+         catch(SQLException sqex){
+             throw new PersistException(sqex);
+         }
      }
      
      /**
@@ -32,14 +80,154 @@ public class PersistToDb {
       * 
       */
      public void reconnect(){
+         throw new UnsupportedOperationException("Not implemented");
      }
      
      /**
       * Creates initial db schema, in case there's no db schema exists.
       */
      private void createSchema(){
-     
+         String createSchema = readResource("build_schema.query");
+         
      
      }
+
+     
+    /**
+     * Performs query and returns qty of resulting rows.
+     * 
+     * @param query
+     * @return 
+     */
+    private int executeQuery(IQuery query) throws SQLException
+    {
+        return executeQuery( query.renderToString(), null );
+    }
+     
+    /**
+     * Executes query.
+     * 
+     * @param pq query string
+     * @param callback callback to call on each result set, 
+     *          if NULL then not be called, just results will be counted.
+     * 
+     * @throws SQLException 
+     * 
+     * @returns count of the results.
+     */
+    private int executeQuery(String pq, IOnResultSetReady callback) throws SQLException
+    {
+        ResultSet rs = null;
+        Statement st = null;
+        try{
+            System.out.println("Performing query ["  + pq + "]");
+            st = mConnection.createStatement();
+            rs = st.executeQuery(pq.toString());
+            int resultCount = 0;
+            while ( rs.next() ){
+                resultCount++;
+                // what's the story with exception in here?
+                // if there will be an exception, then what happens is that this
+                // method itself will throw an sql exception? And it will be raised to
+                // the above level? 
+                if ( callback != null) {
+                    callback.onResultSet(rs);
+                }
+            }
+            
+            return resultCount;
+        }
+        finally{
+            if ( rs != null ){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            if ( st != null ){
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }
+    }
+
+    /**
+     * Reads string from text file (from resource)
+     * 
+     * @param resourceFile
+     * @return NULL string if there was error. At least "" empty string on success.
+     */
+    private static String readResource(String resourceFile) {
+        InputStream is = PersistToDb.class.getResourceAsStream(resourceFile);
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+        
+        String line;
+        
+        try{
+            br = new BufferedReader(new InputStreamReader(is));
+            
+            while ( null != ( line = br.readLine() ) ){
+                sb.append(line);
+                sb.append("\n");
+            }
+            return sb.toString();
+        }
+        catch(IOException ioex){
+            Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, "There's an io execption when closing resource:"  + ioex.getMessage());
+            return null;
+        }
+        finally{
+            if ( br != null ){
+                try {
+                    br.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    /**
+     * Creates schema (data structures with tables and stuff).
+     * 
+     */
+    private void createDataSchema() throws SQLException {
+        String query =  readResource(C_DEF_SCHEMA_RES_FILE);
+        executeQuery(query, null);
+    }
+
+    /**
+     * Verifies if underlying data structures are created.
+     * 
+     * Just checks if the table exists.
+     * 
+     * @return 
+     */
+    private boolean dataSchemaExists() throws SQLException {
+        
+        return tableExists(C_TWEET_TABLE_NAME);
+    }
+
+    
+    /**
+     * Verifies if the table exists in current db.
+     * 
+     * @param tableName
+     * @return 
+     */
+    private boolean tableExists(String tableName) throws SQLException {
+        String query = String.format("SHOW TABLES LIKE '%s'", tableName);
+        int resultCount = executeQuery(query, null);
+        
+        return (resultCount > 0);
+    }
+    
      
 }
