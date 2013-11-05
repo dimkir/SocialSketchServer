@@ -33,6 +33,10 @@ class MyStatus implements Status
     }
     
     
+    @Override
+    public Date getCreatedAt() {
+        return new Date(2013, 10, 10, 10, 10, 10);
+    }    
     
     MyStatus(long id){
         mTweetId = id;
@@ -64,11 +68,7 @@ class MyStatus implements Status
         return new MyUser();
     }    
     
-    
-    @Override
-    public Date getCreatedAt() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
     
     
     @Override

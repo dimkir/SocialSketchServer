@@ -3,6 +3,7 @@ package org.socialsketch.server.persist;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import twitter4j.Status;
 
 /**
@@ -19,11 +20,13 @@ class StatementWrapper {
     private final String mTableName;
     private final Connection mConn;
     
-    private final String mQueryBase = "INSERT INTO `%s` (`tweet_id`,`tweet`) VALUES ( ? , ? )";
+    private final String mQueryBase = "INSERT INTO `%s` (`tweet_id`,`tweet`, `screenname`, `timestamp`) VALUES ( ? , ? , ? , ?)";
             
     private String mQueryWithParameters;
     private long mTweetId;
     private String mTweetText;
+    private String mScreenName;
+    private Date mDate;
     
     
     /**
@@ -47,6 +50,8 @@ class StatementWrapper {
         PreparedStatement st = mConn.prepareStatement(mQueryWithParameters);
         st.setLong(1, mTweetId);
         st.setString(2, mTweetText);
+        st.setString(3, mScreenName);
+        st.setLong(4, mDate.getTime()); // get timestamp since 1970 (unixtime)
         return st.executeUpdate();
     }
 
@@ -58,6 +63,8 @@ class StatementWrapper {
     public void setTweet(Status status) {
         mTweetId = status.getId();
         mTweetText = status.getText();
+        mScreenName = status.getUser().getScreenName();
+        mDate = status.getCreatedAt();
     }
     
     
