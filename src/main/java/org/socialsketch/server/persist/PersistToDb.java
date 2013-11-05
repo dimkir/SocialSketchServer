@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,9 +67,17 @@ public class PersistToDb {
      public void persistTweet(Status status) throws PersistException
      {
          try {
-            PersistQuery pq = new PersistQuery(C_TWEET_TABLE_NAME);
+            StatementWrapper stWrapper = new StatementWrapper(C_TWEET_TABLE_NAME, mConnection);
+            stWrapper.setTweet(status);
+            //PreparedStatement pstmt = mConnection.prepareStatement("???");
+             
+             
+            //PersistQuery pq = new PersistQuery(C_TWEET_TABLE_NAME);
+            //pq.setTweet(status);
+            
+            int rez = stWrapper.executeUpdate();
            
-            executeQuery(pq);
+            //executeUpdate(pq.renderToString());
          }
          catch(SQLException sqex){
              throw new PersistException(sqex);
@@ -103,7 +112,47 @@ public class PersistToDb {
     {
         return executeQuery( query.renderToString(), null );
     }
-     
+
+    /**
+     * Executes UPDATE/INSERT/DELETE statement or any other statement which doesn't
+     * return results.
+     * 
+     * @param pq query string
+
+     * @throws SQLException ?does it?
+     * @deprecated I kinda don't use this method?
+     * @returns count of the results (?affected rows?)
+     */
+    private int executeUpdate(String pq) throws SQLException
+    {
+//        ResultSet rs = null;
+        Statement st = null;
+        try{
+            System.out.println("Performing query ["  + pq + "]");
+            st = mConnection.createStatement();
+            int rez = st.executeUpdate(pq.toString());
+            return rez;
+        }
+        finally{
+//            if ( rs != null ){
+//                try {
+//                    rs.close();
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+            
+            if ( st != null ){
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }
+    }    
+    
     /**
      * Executes query.
      * 
@@ -200,7 +249,7 @@ public class PersistToDb {
      */
     private void createDataSchema() throws SQLException {
         String query =  readResource(C_DEF_SCHEMA_RES_FILE);
-        executeQuery(query, null);
+        executeUpdate(query);
     }
 
     /**
