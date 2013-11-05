@@ -21,16 +21,33 @@ import twitter4j.UserMentionEntity;
  */
 class MyStatus implements Status
 { 
+    private long mTweetId = Long.MAX_VALUE;
+    
+    private final String mText = "This is tweet text!!!";
+    
+    
+    MyStatus(){
+        
+    }
+    
+    MyStatus(String txt){
+        mText = txt;
+    }
+    
+    MyStatus(String txt, long id){
+        mText = txt;
+        mTweetId = id;
+    }
 
     @Override
     public long getId() {
         // let's test with max value. dunno if this is not special value in twitter.
-        return Long.MAX_VALUE;
+        return mTweetId;
     }
 
     @Override
     public String getText() {
-        return "This is tweet text!!!";
+        return mText;
     }
 
 
