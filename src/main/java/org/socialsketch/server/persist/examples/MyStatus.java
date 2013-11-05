@@ -25,9 +25,17 @@ class MyStatus implements Status
     
     private String mText = "This is tweet text!!!";
     
+    private final User mUser = new MyUser();
+
+    @Override
+    public String toString() {
+        return String.format("{id: %d, screenname: %s, text: [%s]}", mTweetId, mUser.getScreenName(), mText);
+    }
     
-    MyStatus(){
-        
+    
+    
+    MyStatus(long id){
+        mTweetId = id;
     }
     
     MyStatus(String txt){
