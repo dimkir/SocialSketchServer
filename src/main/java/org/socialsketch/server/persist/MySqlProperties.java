@@ -1,6 +1,7 @@
 package org.socialsketch.server.persist;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -60,8 +61,11 @@ public class MySqlProperties extends Properties {
      public MySqlProperties(String resourcePath) throws IOException{
          super();
          mResourcePath = resourcePath;
-         
-         load(this.getClass().getResourceAsStream(resourcePath));
+         InputStream is = this.getClass().getResourceAsStream(resourcePath);
+         if ( is == null ){
+             throw new IOException("Cannot read resource: [" + resourcePath + "]");
+         }
+         load(is);
          
      }
      
