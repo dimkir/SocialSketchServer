@@ -23,7 +23,7 @@ class MyStatus implements Status
 { 
     private long mTweetId = Long.MAX_VALUE;
     
-    private final String mText = "This is tweet text!!!";
+    private String mText = "This is tweet text!!!";
     
     
     MyStatus(){
