@@ -2,6 +2,11 @@
 
 .gradle/
 .nb-gradle/
+.settings/
+
+
+.project
+.classpath
 
 nbproject/
 nbproject.off/
@@ -33,3 +38,4 @@ nb-configuration.xml
 #*.jar
 *.war
 *.ear
+/bin
