@@ -30,7 +30,7 @@ public class PersistToDb {
     
     private final Connection mConnection;
     private final static String C_TWEET_TABLE_NAME = "sss_tweet_table";
-    private final String C_DEF_SCHEMA_RES_FILE = "build_schema.sql";
+    private final String C_DEF_SCHEMA_RES_FILE = "/build_schema.sql";
     
      
      /**
@@ -51,7 +51,7 @@ public class PersistToDb {
             }
             
         } catch (IOException | SQLException ex) {
-            Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistException(ex);
         }
      }
