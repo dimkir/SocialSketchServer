@@ -11,6 +11,8 @@ dependencies {
 	compile 'log4j:log4j:1.2.17'
 	compile 'org.twitter4j:twitter4j-core:3.0.5'
 	compile 'org.twitter4j:twitter4j-stream:3.0.5'
+        
+        testCompile group: 'junit', name: 'junit', version: '3.+'
         //compile name: 'DimUtilsSrc'
        // compile ':DimUtilsSrc:0.1'
 }
