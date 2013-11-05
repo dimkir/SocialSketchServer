@@ -7,6 +7,7 @@ import twitter4j.MediaEntity;
 import twitter4j.Place;
 import twitter4j.RateLimitStatus;
 import twitter4j.Status;
+import twitter4j.SymbolEntity;
 import twitter4j.URLEntity;
 import twitter4j.User;
 import twitter4j.UserMentionEntity;
@@ -101,10 +102,6 @@ class MyStatus implements Status
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public long getRetweetCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public boolean isRetweetedByMe() {
@@ -153,6 +150,36 @@ class MyStatus implements Status
 
     @Override
     public MediaEntity[] getMediaEntities() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isRetweeted() {
+        // TODO: implement isRetweeted
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getFavoriteCount() {
+        // TODO: implement getFavoriteCount
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getIsoLanguageCode() {
+        // TODO: implement getIsoLanguageCode
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public SymbolEntity[] getSymbolEntities() {
+        // TODO: implement getSymbolEntities
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getRetweetCount() {
+        // TODO: implement getRetweetCount
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
