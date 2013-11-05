@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.socialsketch.server.persist.query.IQuery;
-import org.socialsketch.server.persist.query.PersistQuery;
 import twitter4j.Status;
 
 /**
@@ -100,18 +97,6 @@ public class PersistToDb {
          
      
      }
-
-     
-    /**
-     * Performs query and returns qty of resulting rows.
-     * 
-     * @param query
-     * @return 
-     */
-    private int executeQuery(IQuery query) throws SQLException
-    {
-        return executeQuery( query.renderToString(), null );
-    }
 
     /**
      * Executes UPDATE/INSERT/DELETE statement or any other statement which doesn't
