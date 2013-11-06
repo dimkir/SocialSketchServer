@@ -1,8 +1,12 @@
 #!/bin/sh
 
-if [ $# -eq 0]
+if [ $# -eq 0 ]
 	then
 		echo "No arguments supplied, please  specify as artument txt file with terms"
+		exit 1
+	else
+		echo "Received parameter [$1]"
+
 fi
 
 # This script actually runs server
