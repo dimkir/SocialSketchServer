@@ -47,9 +47,11 @@ public class Main {
         }
         
         try {
-            System.out.println("Running social sketch server test stub");
-            PersistToDb persistor = new PersistToDb();
+            System.out.printf("Attempting to read listening configuration from file [%s]...\n", args[0]);
             List<String> listOfTerms = readStrings(args[0]);
+            System.out.printf("Read from file %d lines.", listOfItems.size() );
+            
+            PersistToDb persistor = new PersistToDb();
             startListener(persistor, listOfTerms, new IOnStatusReceived() {
 
                 @Override
@@ -67,11 +69,11 @@ public class Main {
             
         } catch (PersistException ex) {
             System.out.println("There was an error initializing persistor: " + ex.getMessage());
-            ex.printStackTrace();
+            //ex.printStackTrace();
         } catch (IOException ex) {
             //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Aborting. There was an error whilst reading file with configuration: " + ex.getMessage());
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }    
     
@@ -156,14 +158,19 @@ public class Main {
      * @param args 
      */
     private static void printCommandLineParams(String[] args) {
-        if ( args == null || args.length == 0){
-            System.out.println(">>No command line parameters specified");
+        if ( args == null ){
+            System.out.println(">>No command line parameters specified (NULL)");
+            return;
+        }
+
+        if (  args.length == 0  ){
+            System.out.println(">>No command line parameters specified (0 length)");
             return;
         }
         
         for(int i = 0 ; i < args.length ; i++){
             
-            System.out.printf("Parameter %d equal [%s]", i, args[i]);
+            System.out.printf("Parameter %d equal [%s]\n", i, args[i]);
         }
     }
 
@@ -195,7 +202,7 @@ public class Main {
             String line;
             int linesCompleted = 0;
             List<String> list = new ArrayList<>();
-            while (  linesCompleted < maxLines  &&
+            while (  ((linesCompleted < maxLines) || ( maxLines == -1)) &&
                     (null != ( line = breader.readLine() )  )
                     ) 
             {
