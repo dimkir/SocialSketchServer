@@ -49,7 +49,7 @@ public class Main {
         try {
             System.out.printf("Attempting to read listening configuration from file [%s]...\n", args[0]);
             List<String> listOfTerms = readStrings(args[0]);
-            System.out.printf("Read from file %d lines.", listOfItems.size() );
+            System.out.printf("Read from file %d lines.", listOfTerms.size() );
             
             PersistToDb persistor = new PersistToDb();
             startListener(persistor, listOfTerms, new IOnStatusReceived() {
