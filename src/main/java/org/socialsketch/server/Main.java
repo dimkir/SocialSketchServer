@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.socialsketch.server.persist.PersistException;
 import org.socialsketch.server.persist.PersistToDb;
@@ -109,6 +110,15 @@ public class Main {
         if ( track.isEmpty() ){ throw new IllegalArgumentException("List of words to track cannot be empty"); }
 
         Twitter twitter = TwitterFactory.getSingleton();
+        
+        String screenName;
+        try {
+            screenName = twitter.getAccountSettings().getScreenName();
+            System.out.println("Authenticating user is: @" + screenName);
+        } catch (TwitterException ex) {
+            System.out.println("There was error getting current authenticated user: " + ex.getMessage());
+            //java.util.logging.Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         StatusListener listener = new MyStatusListener(persistor, twitter, callback);
                 
