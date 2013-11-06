@@ -41,9 +41,10 @@ public class MyStatusListener implements StatusListener {
             mOnStatusReceived.onStatusReceived(mTwitter, status);
         } catch (PersistException ex) {
             logger.error("Error persisting tweet with id (" + status.getId() + ")");
-        } catch (TwitterException ex) {
-            logger.error("Cannot favorite tweet with id (" + status.getId() + ")");
         }
+//        } catch (TwitterException ex) {
+//            logger.error("Cannot favorite tweet with id (" + status.getId() + ")");
+//        }
     }
 
     @Override
