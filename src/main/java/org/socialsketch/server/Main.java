@@ -58,7 +58,8 @@ public class Main {
                 @Override
                 public void onStatusReceived(Twitter twitter, Status status) {
                     try {
-                        twitter.createFavorite(status.getId());
+                        //twitter.createFavorite(status.getId());
+                        twitter.retweetStatus(status.getId());
                         
                     } catch (TwitterException ex) {
                         logger.warn("Cannot favorite tweet with id: " + status.getId() , ex);
