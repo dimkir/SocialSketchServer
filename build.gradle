@@ -1,4 +1,16 @@
 apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "org.socialsketch.server.Main"
+
+task copyToLib(type: Copy) {
+    into "$buildDir/output/libs"
+    from configurations.runtime
+}
+
+
+build.dependsOn(copyToLib)
+
 
 repositories {
    mavenCentral()
@@ -11,6 +23,7 @@ dependencies {
 	compile 'log4j:log4j:1.2.17'
 	compile 'org.twitter4j:twitter4j-core:3.0.5'
 	compile 'org.twitter4j:twitter4j-stream:3.0.5'
+//	releaseJars 'org.twitter4j:twitter4j-stream:3.0.5'
         
         testCompile group: 'junit', name: 'junit', version: '3.+'
         
