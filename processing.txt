@@ -1,0 +1,3 @@
+void setup draw
+void setup size
+void setup draw #p5
