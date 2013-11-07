@@ -1,19 +1,57 @@
 package org.socialsketch.server.persist;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
  * Helper Properties for mysql (also this is actually spec for the properties file.
  * 
+ * v0.21 (with readResource())
+ * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
 public class MySqlProperties extends Properties {
+
+    /**
+     * Reads string from text file (from resource)
+     *
+     * @param resourceFile
+     * @return NULL string if there was error. At least "" empty string on success.
+     */
+    public static String readResource(String resourceFile) {
+        InputStream is = PersistToDb.class.getResourceAsStream(resourceFile);
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+        String line;
+        try {
+            br = new BufferedReader(new InputStreamReader(is));
+            while (null != (line = br.readLine())) {
+                sb.append(line);
+                sb.append("\n");
+            }
+            return sb.toString();
+        } catch (IOException ioex) {
+            Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, "There's an io execption when closing resource:" + ioex.getMessage());
+            return null;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
      private final String mResourcePath;
      
      private static final String MYSQL_USER = "db.mysql.user";
