@@ -28,7 +28,7 @@ public class MySqlProperties extends Properties {
      * @return NULL string if there was error. At least "" empty string on success.
      */
     public static String readResource(String resourceFile) {
-        InputStream is = PersistToDb.class.getResourceAsStream(resourceFile);
+        InputStream is = MySqlProperties.class.getResourceAsStream(resourceFile);
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
         String line;
