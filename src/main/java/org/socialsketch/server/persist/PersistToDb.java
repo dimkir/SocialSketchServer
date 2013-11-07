@@ -93,7 +93,7 @@ public class PersistToDb {
       * Creates initial db schema, in case there's no db schema exists.
       */
      private void createSchema(){
-         String createSchema = readResource("build_schema.query");
+         String createSchema = MySqlProperties.readResource("build_schema.query");
          
      
      }
@@ -192,48 +192,11 @@ public class PersistToDb {
     }
 
     /**
-     * Reads string from text file (from resource)
-     * 
-     * @param resourceFile
-     * @return NULL string if there was error. At least "" empty string on success.
-     */
-    private static String readResource(String resourceFile) {
-        InputStream is = PersistToDb.class.getResourceAsStream(resourceFile);
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-        
-        String line;
-        
-        try{
-            br = new BufferedReader(new InputStreamReader(is));
-            
-            while ( null != ( line = br.readLine() ) ){
-                sb.append(line);
-                sb.append("\n");
-            }
-            return sb.toString();
-        }
-        catch(IOException ioex){
-            Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, "There's an io execption when closing resource:"  + ioex.getMessage());
-            return null;
-        }
-        finally{
-            if ( br != null ){
-                try {
-                    br.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    /**
      * Creates schema (data structures with tables and stuff).
      * 
      */
     private void createDataSchema() throws SQLException {
-        String query =  readResource(C_DEF_SCHEMA_RES_FILE);
+        String query =  MySqlProperties.readResource(C_DEF_SCHEMA_RES_FILE);
         executeUpdate(query);
     }
 
