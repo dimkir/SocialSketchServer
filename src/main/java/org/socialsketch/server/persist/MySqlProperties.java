@@ -40,14 +40,14 @@ public class MySqlProperties extends Properties {
             }
             return sb.toString();
         } catch (IOException ioex) {
-            Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, "There's an io execption when closing resource:" + ioex.getMessage());
+            Logger.getLogger(MySqlProperties.class.getName()).log(Level.SEVERE, "There's an io execption when closing resource:" + ioex.getMessage());
             return null;
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(PersistToDb.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MySqlProperties.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
