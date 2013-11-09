@@ -66,7 +66,7 @@ public class Application {
             
             PersistToDb persistor = PersistToDb.getInstance();
             
-            runSpring();
+            runSpring(args);
             
             startListener(persistor, listOfTerms, new IOnStatusReceived() {
 
@@ -284,10 +284,10 @@ public class Application {
      * 
      * This is more for exploring what the heck these spring beans are...
      */
-    private static void runSpring() {
+    private static void runSpring(String[] args) {
             ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);        
             System.out.println("Let's inspect beans provided by Spring Boot:");
-            beanNames = context.getBeanDefinitionNames();
+            String[] beanNames = context.getBeanDefinitionNames();
             for(String beanName : beanNames){
                 System.out.println("Bean [" + beanName + "]");
             }
