@@ -1,4 +1,4 @@
-package org.socialsketch.server;
+package org.socialsketch.server.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
