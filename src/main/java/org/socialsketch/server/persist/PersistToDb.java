@@ -1,9 +1,6 @@
 package org.socialsketch.server.persist;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +22,21 @@ import twitter4j.Status;
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
 public class PersistToDb {
+    
+    
+    private static PersistToDb mInstance = null;
+    
+    /**
+     * Returns instance (singleton style).
+     * 
+     * @throws PersistException when there's an error initializing persistor.
+     */
+    public static PersistToDb getInstance() throws PersistException{
+        if ( mInstance == null ){
+            mInstance = new PersistToDb();
+        }
+        return mInstance;
+    }
     
     private final Connection mConnection;
     private final static String C_TWEET_TABLE_NAME = "sss_tweet_table";
