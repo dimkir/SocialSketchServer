@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.socialsketch.server.persist.PersistException;
 import org.socialsketch.server.persist.PersistToDb;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import twitter4j.FilterQuery;
 import twitter4j.Status;
 import twitter4j.StatusListener;
@@ -33,6 +36,9 @@ import twitter4j.TwitterStreamFactory;
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
+
+@ComponentScan
+@EnableAutoConfiguration
 public class Main {
 
     private static final Logger logger = org.apache.log4j.Logger.getLogger(Main.class);
@@ -40,7 +46,13 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String[] args) {
+        main1(args);
+    }
+    
+    
+    public static void main1(String[] args) {
         printCommandLineParams(args);
         if ( args == null || args.length == 0){
             System.out.println("Please specify one parameter: termfile.txt");
@@ -53,6 +65,10 @@ public class Main {
             System.out.printf("Read from file %d lines.", listOfTerms.size() );
             
             PersistToDb persistor = new PersistToDb();
+            ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
+            
+           
+            
             startListener(persistor, listOfTerms, new IOnStatusReceived() {
 
                 @Override
@@ -68,6 +84,7 @@ public class Main {
                 }
             });
             
+
             
         } catch (PersistException ex) {
             System.out.println("There was an error initializing persistor: " + ex.getMessage());
