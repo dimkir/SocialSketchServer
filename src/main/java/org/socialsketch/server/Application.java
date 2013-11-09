@@ -65,9 +65,8 @@ public class Application {
             System.out.printf("Read from file %d lines.", listOfTerms.size() );
             
             PersistToDb persistor = PersistToDb.getInstance();
-            ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
             
-           
+            runSpring();
             
             startListener(persistor, listOfTerms, new IOnStatusReceived() {
 
@@ -277,6 +276,21 @@ public class Application {
      */
     private static List<String> readStrings(String filePath) throws IOException {
         return readStrings(filePath, -1);
+    }
+
+    
+    /**
+     * Runs spring and also prints out info about beans.
+     * 
+     * This is more for exploring what the heck these spring beans are...
+     */
+    private static void runSpring() {
+            ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);        
+            System.out.println("Let's inspect beans provided by Spring Boot:");
+            beanNames = context.getBeanDefinitionNames();
+            for(String beanName : beanNames){
+                System.out.println("Bean [" + beanName + "]");
+            }
     }
     
 }
