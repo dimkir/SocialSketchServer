@@ -50,7 +50,7 @@ public class PersistToDb {
       * @throws PersistException in case there was problem connecting.
       * 
       */
-     public PersistToDb() throws PersistException, PersistFatalException
+     private PersistToDb() throws PersistException, PersistFatalException
      {
         try {
             mConnection = new MySqlProperties().getNewConnection();
