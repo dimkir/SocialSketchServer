@@ -20,7 +20,7 @@ public class TestInsert {
     public static void main(String[] args) {
         try {
             // the question is: where will data source configuration be taken from.
-            PersistToDb pers = new PersistToDb();
+            PersistToDb pers = PersistToDb.getInstance();
             
             Status tweet = new MyStatus(System.currentTimeMillis()); // this is "mock" implementation of the twitter Status object.
             System.out.println(tweet);
