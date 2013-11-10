@@ -1,4 +1,4 @@
-package org.socialsketch.server.persist.examples;
+package org.socialsketch.server.persist.examples.mocks;
 
 import java.net.URL;
 import java.util.Date;
@@ -17,7 +17,7 @@ import twitter4j.User;
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
-class MyUser implements User
+public class MyUser implements User
 {
 
     @Override

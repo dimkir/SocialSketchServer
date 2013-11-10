@@ -1,4 +1,4 @@
-package org.socialsketch.server.persist.examples;
+package org.socialsketch.server.persist.examples.mocks;
 
 import java.util.Date;
 import twitter4j.GeoLocation;
@@ -19,7 +19,7 @@ import twitter4j.UserMentionEntity;
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
-class MyStatus implements Status
+public class MyStatus implements Status
 { 
     private long mTweetId = Long.MAX_VALUE;
     
@@ -38,15 +38,15 @@ class MyStatus implements Status
         return new Date(2013, 10, 10, 10, 10, 10);
     }    
     
-    MyStatus(long id){
+    public MyStatus(long id){
         mTweetId = id;
     }
     
-    MyStatus(String txt){
+    public MyStatus(String txt){
         mText = txt;
     }
     
-    MyStatus(String txt, long id){
+    public MyStatus(String txt, long id){
         mText = txt;
         mTweetId = id;
     }
