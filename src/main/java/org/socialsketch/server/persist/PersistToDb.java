@@ -5,8 +5,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import twitter4j.Status;
 
 /**
@@ -26,9 +30,12 @@ public class PersistToDb {
     
     private static PersistToDb mInstance = null;
     
+    private final JdbcTemplate mJdbcTemplate;
+    
     /**
      * Returns instance (singleton style).
      * 
+     * @return instance of the PersistToDb
      * @throws PersistException when there's an error initializing persistor.
      */
     public static PersistToDb getInstance() throws PersistException{
@@ -53,7 +60,17 @@ public class PersistToDb {
      private PersistToDb() throws PersistException, PersistFatalException
      {
         try {
-            mConnection = new MySqlProperties().getNewConnection();
+            MySqlProperties properties = new MySqlProperties();
+            mConnection = properties.getNewConnection();
+            
+            SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+            dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
+            dataSource.setUsername(properties.getUser());
+            dataSource.setPassword(properties.getPassword());
+            System.out.println("Connection url: [" + properties.getConnectionUrl() + "]");
+            dataSource.setUrl(properties.getConnectionUrl());
+            
+            mJdbcTemplate = new JdbcTemplate(dataSource);
             
             // make sure that all tables and corresponding "schema" is created.
             if ( !dataSchemaExists() ){
@@ -67,9 +84,41 @@ public class PersistToDb {
      }
      
      
+     
+     
+     /**
+      * Returns latest tweets.
+      * 
+      *  @param limit should be 1 or larger value. Keep in mind that if you make this
+      *         parameter too big, ie 100 000 or 1M, then you may run out of memory.
+      *  @return valid list (may be of length 0 in case there're no values).
+      */
+    public List<TweetRecord> getLatestTweets(int limit) {
+        //
+        String query = String.format("SELECT * FROM `%s` LIMIT 0,%d", C_TWEET_TABLE_NAME, limit);
+        
+        // TODO: will this return empty valid list on no results?
+        List<TweetRecord> results = mJdbcTemplate.query(query, new RowMapper<TweetRecord>() {
+
+            @Override
+            public TweetRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new TweetRecord().
+                        setId(rs.getInt(TweetRecord.FT_ID)).
+                        setTweetId(rs.getLong(TweetRecord.FT_TWEET_ID)).
+                        setScreenName(rs.getString(TweetRecord.FT_SCREEN_NAME)).
+                        setTweet(rs.getString(TweetRecord.FT_TWEET)).
+                        setTimeStamp(rs.getLong(TweetRecord.FT_TIMESTAMP));
+            }
+
+        });
+        return results;
+    }
+     
      /**
       * Persists the tweet to DB.
       * 
+     * @param status is a tweet which needs to be persisted.
+     * 
       * @throws PersistFatalException in case it's the end
       * @throws PersistReconnectableException in case reconnection may help
       */
