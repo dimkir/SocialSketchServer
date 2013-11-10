@@ -1,7 +1,6 @@
 package org.socialsketch.server.controllers;
 
 import org.apache.log4j.Logger;
-import org.socialsketch.server.persist.PersistException;
 import twitter4j.internal.org.json.JSONException;
 import twitter4j.internal.org.json.JSONObject;
 
@@ -19,7 +18,7 @@ public class BaseController {
      *
      * @return correct json or error about error making JSON.
      */
-    protected String makeError(String errMsg, PersistException ex) {
+    protected String makeError(String errMsg, Exception ex) {
         try {
             // TODO: implement makeError
             // make error object
