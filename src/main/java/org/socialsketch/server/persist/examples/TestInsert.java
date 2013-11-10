@@ -1,5 +1,6 @@
 package org.socialsketch.server.persist.examples;
 
+import org.socialsketch.server.persist.examples.mocks.MyStatus;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.socialsketch.server.persist.PersistException;
