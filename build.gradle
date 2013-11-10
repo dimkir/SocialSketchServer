@@ -12,7 +12,8 @@ apply plugin: 'java'
 //apply plugin: 'application'
 apply plugin: 'spring-boot'
 
-mainClassName = "org.socialsketch.server.Main"
+// this seems to be deprecated.
+//mainClassName = "org.socialsketch.server.Main"
 
 jar {
     baseName = 'socialsketchserver'
@@ -36,6 +37,7 @@ repositories {
 }
 
 dependencies {
+        compile("org.springframework:spring-jdbc:4.0.0.M3")    
 	compile 'mysql:mysql-connector-java:5.1.26'
 	compile 'log4j:log4j:1.2.17'
 	compile 'org.twitter4j:twitter4j-core:3.0.5'
