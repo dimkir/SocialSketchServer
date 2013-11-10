@@ -14,12 +14,15 @@ import twitter4j.Status;
  * 
  * @author Dimitry Kireyenkov <dimitry@languagekings.com>
  */
+//TODO: this class is logically coupled to the table structure. 
+// this table structure should be somehow encapsulated into specific class.
 class StatementWrapper {
     
     
     private final String mTableName;
     private final Connection mConn;
     
+    //TODO: remove somehow dependency on this thing.
     private final String mQueryBase = "INSERT INTO `%s` (`tweet_id`,`tweet`, `screenname`, `timestamp`) VALUES ( ? , ? , ? , ?)";
             
     private String mQueryWithParameters;
