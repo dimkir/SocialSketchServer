@@ -26,7 +26,7 @@ public class TestList {
             
             List<TweetRecord> latest = pers.getLatestTweets(10);
             
-            if ( latest.size() == 0 ){
+            if ( latest.isEmpty() ){
                 System.out.println("*** Current list of latest tweets is empty.");
             }
             for(TweetRecord tr : latest){
