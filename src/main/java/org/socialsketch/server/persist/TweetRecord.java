@@ -64,11 +64,11 @@ public class TweetRecord implements Serializable
         return tweet;
     }
 
-    private String getScreenName() {
+    public String getScreenName() {
         return screenName;
     }
 
-    private String getTimeStamp() {
+    public String getTimeStamp() {
         return String.valueOf(timeStamp);
     }
 
@@ -114,7 +114,17 @@ public class TweetRecord implements Serializable
      * @param unixepoch
      */
     private void updateDate(long unixepoch) {
+        if ( date == null ){
+            date = new Date(unixepoch);
+        }
         date.setTime(unixepoch);
+    }
+
+    @Override
+    public String toString() {
+        String msg = String.format("Tweet id: %s, Tweet: [%s]", getTweetId(), getTweet());
+        
+        return msg;
     }
     
     
